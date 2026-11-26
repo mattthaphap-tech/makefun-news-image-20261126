@@ -17,9 +17,11 @@ import shutil
 import struct
 import sys
 from datetime import datetime, timezone
+from pathlib import Path
 
-SOURCE = "entry.png"
-OUTPUT_DIR = "/output"
+ROOT = Path(__file__).resolve().parent
+SOURCE = ROOT / "entry.png"
+OUTPUT_DIR = os.environ.get("MAKEFUN_OUTPUT_DIR", "/output")
 TARGET = os.path.join(OUTPUT_DIR, "entry.png")
 CHUNK_SIZE = 1024 * 1024
 
@@ -63,8 +65,8 @@ def delivery_report(source, target, size, digest, width, height):
     """Emit one JSON line summarising the delivered front page."""
     record = {
         "bounty": "news-image-20261126",
-        "origin": source,
-        "destination": target,
+        "origin": str(source),
+        "destination": str(target),
         "byte_count": size,
         "digest": digest,
         "headline_count": 35,
