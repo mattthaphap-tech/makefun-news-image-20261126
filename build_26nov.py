@@ -240,21 +240,6 @@ def lead_storm(w, h):
 
 
 # ----- MINI icons (186 x 36 flat scenes) -----
-def icon_breach(w, h):
-    """Cyber breach: dark screen, broken padlock, red alert triangle."""
-    im, dd = icon_base(w, h, (24, 34, 54))
-    dd.rectangle([18, 6, 118, h - 8], fill=(16, 22, 34), outline=(120, 140, 160), width=2)
-    dd.rectangle([58, h - 8, 78, h - 4], fill=(120, 140, 160))
-    dd.rounded_rectangle([56, 14, 80, 28], radius=3, fill=(255, 215, 0))
-    dd.arc([60, 4, 76, 18], 180, 360, fill=(255, 215, 0), width=3)
-    dd.line([(76, 6), (84, 2)], fill=(255, 215, 0), width=3)
-    dd.ellipse([65, 18, 71, 24], fill=(24, 34, 54))
-    ax, ay = 150, h // 2 + 1
-    dd.polygon([(ax, ay - 14), (ax + 16, ay + 10), (ax - 16, ay + 10)], fill=(235, 60, 60))
-    dd.text((ax - 2, ay - 9), "!", font=font(SANSB, 13), fill=WHITE)
-    return im
-
-
 def icon_shield(w, h):
     """NATO: blue shield with compass star beside a Polish flag."""
     im, dd = icon_base(w, h, (18, 40, 80))
@@ -300,74 +285,6 @@ def icon_server(w, h):
     pts = [(128, h - 8), (146, h - 18), (160, h - 14), (176, h - 26)]
     dd.line(pts, fill=(90, 220, 120), width=3, joint="curve")
     dd.polygon([(176, h - 26), (166, h - 24), (174, h - 16)], fill=(90, 220, 120))
-    return im
-
-
-def icon_chipfall(w, h):
-    """Green chip + plunging red line."""
-    im, dd = icon_base(w, h, (16, 40, 26))
-    dd.rounded_rectangle([16, 6, 76, h - 6], radius=4, fill=(20, 110, 60))
-    for px in (28, 40, 52, 64):
-        dd.line([(px, 2), (px, 6)], fill=(180, 220, 190), width=2)
-        dd.line([(px, h - 6), (px, h - 2)], fill=(180, 220, 190), width=2)
-    dd.rectangle([30, 12, 62, h - 12], fill=(10, 70, 40), outline=(255, 215, 0))
-    dd.text((37, 15), "AI", font=font(SANSB, 10), fill=(255, 215, 0))
-    pts = [(92, 6), (112, 12), (132, 10), (152, 22), (172, 20), (182, 30)]
-    dd.line(pts, fill=(235, 60, 60), width=3, joint="curve")
-    dd.polygon([(182, 30), (172, 26), (178, 36)], fill=(235, 60, 60))
-    return im
-
-
-def icon_gaza(w, h):
-    """Damaged block at dusk, smoke column, small UN flag."""
-    im, dd = icon_base(w, h, (70, 52, 44))
-    dd.rectangle([0, 0, w, 12], fill=(120, 70, 50))
-    dd.ellipse([w - 28, 2, w - 12, 18], fill=(255, 210, 140))
-    dd.rectangle([14, 12, 84, h], fill=(150, 148, 140))
-    dd.polygon([(14, 12), (34, 20), (14, 24)], fill=(90, 88, 84))
-    for wx in range(22, 78, 12):
-        dd.rectangle([wx, 18, wx + 6, 24], fill=(255, 210, 90))
-    for sx, sy, sr in [(96, 10, 5), (104, 4, 4), (90, 4, 3)]:
-        dd.ellipse([sx - sr, sy - sr, sx + sr, sy + sr], fill=(200, 195, 185))
-    dd.line([(128, 8), (128, h - 4)], fill=(230, 230, 230), width=2)
-    dd.rectangle([128, 8, 168, 20], fill=(40, 90, 180))
-    dd.ellipse([142, 11, 154, 17], outline=WHITE, width=1)
-    return im
-
-
-def icon_medal(w, h):
-    """Gold medal on a red-white-blue ribbon."""
-    im, dd = icon_base(w, h, (24, 44, 84))
-    dd.polygon([(78, 2), (92, 2), (88, 16), (82, 16)], fill=(200, 30, 30))
-    dd.polygon([(92, 2), (106, 2), (102, 16), (96, 16)], fill=WHITE)
-    dd.polygon([(106, 2), (120, 2), (116, 16), (110, 16)], fill=(31, 78, 121))
-    cx, cy = 96, h // 2 + 6
-    dd.ellipse([cx - 13, cy - 13, cx + 13, cy + 13], fill=(255, 215, 0),
-               outline=(178, 140, 0), width=2)
-    dd.polygon([(cx, cy - 8), (cx + 2, cy - 2), (cx + 8, cy - 2), (cx + 3, cy + 2),
-                (cx + 5, cy + 8), (cx, cy + 4), (cx - 5, cy + 8), (cx - 3, cy + 2),
-                (cx - 8, cy - 2), (cx - 2, cy - 2)], fill=(179, 32, 42))
-    for sx in (24, 158):
-        dd.polygon([(sx, 8), (sx + 2, 13), (sx + 7, 13), (sx + 3, 16),
-                    (sx + 5, 21), (sx, 18), (sx - 5, 21), (sx - 3, 16),
-                    (sx - 7, 13), (sx - 2, 13)], fill=(255, 215, 0))
-    return im
-
-
-def icon_eu(w, h):
-    """EU circle of stars + red ban slash over a Russian flag."""
-    im, dd = icon_base(w, h, (20, 60, 140))
-    cx, cy = 48, h // 2
-    for i in range(12):
-        a = math.pi * 2 * i / 12 - math.pi / 2
-        dd.ellipse([cx + 26 * math.cos(a) - 2, cy + 12 * math.sin(a) - 2,
-                    cx + 26 * math.cos(a) + 2, cy + 12 * math.sin(a) + 2],
-                   fill=(255, 215, 0))
-    fx, fy = 108, 8
-    dd.rectangle([fx, fy, fx + 52, fy + 8], fill=WHITE)
-    dd.rectangle([fx, fy + 8, fx + 52, fy + 16], fill=(20, 60, 140))
-    dd.rectangle([fx, fy + 16, fx + 52, fy + 24], fill=(200, 30, 30))
-    dd.line([(fx - 4, fy + 28), (fx + 56, fy - 4)], fill=(230, 40, 40), width=4)
     return im
 
 
@@ -436,18 +353,6 @@ def icon_rocket(w, h):
     return im
 
 
-def icon_storm_mini(w, h):
-    """Storm cloud + rain + lightning bolt."""
-    im, dd = icon_base(w, h, (40, 52, 70))
-    for cx, cy, r in [(60, 14, 18), (100, 10, 22), (140, 14, 18)]:
-        dd.ellipse([cx - r, cy - r // 2, cx + r, cy + r // 2], fill=(70, 78, 92))
-    for rx in range(16, 120, 16):
-        dd.line([(rx, 26), (rx - 4, 34)], fill=(150, 180, 210), width=2)
-    dd.polygon([(150, 8), (138, 24), (148, 24), (140, 34), (158, 18), (148, 18)],
-               fill=(255, 215, 0))
-    return im
-
-
 def icon_ship(w, h):
     """Container ship + 15% tariff tag (trade)."""
     im, dd = icon_base(w, h, (214, 226, 232))
@@ -492,50 +397,11 @@ def icon_station(w, h):
     return im
 
 
-def icon_india_ballot(w, h):
-    """Indian tricolour + ballot box with two papers."""
-    im, dd = icon_base(w, h, (250, 247, 238))
-    dd.line([(14, 6), (14, h - 8)], fill=(120, 110, 90), width=2)
-    dd.polygon([(14, 8), (28, 6), (42, 9), (56, 7), (56, 30), (42, 32),
-                (28, 29), (14, 31)], fill=(255, 153, 51))
-    dd.polygon([(14, 16), (28, 14), (42, 17), (56, 15), (56, 23), (42, 25),
-                (28, 22), (14, 24)], fill=WHITE)
-    dd.polygon([(14, 24), (28, 22), (42, 25), (56, 23), (56, 30), (42, 32),
-                (28, 29), (14, 31)], fill=(19, 136, 8))
-    dd.ellipse([31, 16, 39, 24], outline=(31, 78, 121), width=1)
-    dd.rectangle([104, h - 18, 148, h - 4], fill=(179, 32, 42))
-    dd.rectangle([104, h - 20, 148, h - 17], fill=(140, 24, 32))
-    dd.polygon([(114, h - 32), (126, h - 32), (124, h - 19), (116, h - 19)], fill=WHITE)
-    dd.polygon([(132, h - 30), (144, h - 30), (142, h - 19), (134, h - 19)], fill=(255, 215, 0))
-    return im
-
-
-def icon_flags_us_il(w, h):
-    """US flag + Israeli flag side by side."""
-    im, dd = icon_base(w, h, (250, 247, 238))
-    dd.rectangle([10, 8, 78, 28], fill=WHITE, outline=(26, 26, 26))
-    for i in range(7):
-        dd.rectangle([10, 8 + i * 3, 78, 10 + i * 3], fill=(179, 32, 42))
-    dd.rectangle([10, 8, 34, 18], fill=(31, 78, 121))
-    for sx in (15, 22, 29):
-        for sy in (11, 15):
-            dd.ellipse([sx - 1, sy - 1, sx + 1, sy + 1], fill=WHITE)
-    dd.rectangle([108, 8, 176, 28], fill=WHITE, outline=(26, 26, 26))
-    dd.rectangle([108, 8, 176, 12], fill=(31, 78, 121))
-    dd.rectangle([108, 24, 176, 28], fill=(31, 78, 121))
-    cx, cy = 142, 18
-    dd.polygon([(cx, cy - 6), (cx + 5, cy + 4), (cx - 5, cy + 4)], outline=(31, 78, 121))
-    dd.polygon([(cx, cy + 6), (cx + 5, cy - 4), (cx - 5, cy - 4)], outline=(31, 78, 121))
-    return im
-
-
 ICONS = {
-    "breach": icon_breach, "shield": icon_shield, "gavel": icon_gavel,
-    "server": icon_server, "chipfall": icon_chipfall, "gaza": icon_gaza,
-    "medal": icon_medal, "eu": icon_eu, "india_ballot": icon_india_ballot,
-    "flags_us_il": icon_flags_us_il, "bank": icon_bank, "summit": icon_summit,
-    "chess": icon_chess, "rocket": icon_rocket, "storm": icon_storm_mini,
-    "ship": icon_ship, "parade": icon_parade, "station": icon_station,
+    "shield": icon_shield, "gavel": icon_gavel, "server": icon_server,
+    "bank": icon_bank, "summit": icon_summit, "chess": icon_chess,
+    "rocket": icon_rocket, "ship": icon_ship, "parade": icon_parade,
+    "station": icon_station,
 }
 LEAD_DRAW = {"missile": lead_missile, "bounce": lead_bounce, "storm": lead_storm}
 
