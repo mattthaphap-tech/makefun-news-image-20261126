@@ -1,12 +1,13 @@
-"""Deliver the finished front page to the harness output directory.
+"""Hand the finished front page to the harness.
 
-Entry: make.fun news-image-20261126 — "Thursday 26 November 2026 —
-35 stories, 7 regions: Kim's nuclear push, Asia shares bounce,
-Thanksgiving nor'easter". The newspaper image itself (entry.png) is
-drawn by build_26nov.py; this script only delivers it. It copies
-entry.png to /output/entry.png, then proves the copy is byte-identical
-by comparing the file size and the SHA-256 digest of source and
-destination, both computed fresh at run time.
+This entry is the make.fun news-image-20261126 front page:
+"Thursday 26 November 2026 — 35 stories, 7 regions: Kim's nuclear push,
+Asia shares bounce, Thanksgiving nor'easter". The picture itself is drawn
+by build_26nov.py; this module only moves the finished file into place.
+It copies entry.png from the repository root into /output/entry.png and
+then proves the copy is exact: the byte count and the SHA-256 digest of
+the source and the destination are computed fresh and must match, or the
+run stops with an error instead of handing over a bad file.
 """
 
 import hashlib
@@ -20,8 +21,8 @@ TARGET = os.path.join(OUTPUT_DIR, "entry.png")
 CHUNK_SIZE = 1024 * 1024
 
 
-def digest_file(path):
-    """Return the hex SHA-256 digest of the file at path."""
+def sha256_of(path):
+    """Hex SHA-256 digest of the file at path, read in chunks."""
     hasher = hashlib.sha256()
     with open(path, "rb") as handle:
         while True:
@@ -32,38 +33,38 @@ def digest_file(path):
     return hasher.hexdigest()
 
 
-def abort(message):
-    """Print an error and exit non-zero."""
+def fail(message):
+    """Report a fatal problem on stderr and stop with a non-zero exit."""
     print(f"error: {message}", file=sys.stderr)
     raise SystemExit(1)
 
 
 def main():
     if not os.path.isfile(SOURCE):
-        abort(f"source image not found: {SOURCE}")
+        fail(f"source image not found: {SOURCE}")
 
     try:
         os.makedirs(OUTPUT_DIR, exist_ok=True)
     except OSError as exc:
-        abort(f"cannot create output directory {OUTPUT_DIR}: {exc}")
+        fail(f"cannot create output directory {OUTPUT_DIR}: {exc}")
 
     try:
         shutil.copyfile(SOURCE, TARGET)
     except OSError as exc:
-        abort(f"copy failed ({SOURCE} -> {TARGET}): {exc}")
+        fail(f"copy failed ({SOURCE} -> {TARGET}): {exc}")
 
     source_size = os.path.getsize(SOURCE)
     target_size = os.path.getsize(TARGET)
     if source_size != target_size:
-        abort(
+        fail(
             f"size mismatch: source {source_size} bytes, "
             f"copy {target_size} bytes"
         )
 
-    source_hash = digest_file(SOURCE)
-    target_hash = digest_file(TARGET)
+    source_hash = sha256_of(SOURCE)
+    target_hash = sha256_of(TARGET)
     if source_hash != target_hash:
-        abort(
+        fail(
             f"SHA-256 mismatch: source {source_hash}, copy {target_hash}"
         )
 
